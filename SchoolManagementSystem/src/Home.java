@@ -36,6 +36,11 @@ public class Home extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         teacher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teacher.png"))); // NOI18N
+        teacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teacherActionPerformed(evt);
+            }
+        });
 
         principal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/principal.png"))); // NOI18N
         principal.addActionListener(new java.awt.event.ActionListener() {
@@ -45,6 +50,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         student.setIcon(new javax.swing.ImageIcon(getClass().getResource("/student.png"))); // NOI18N
+        student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentActionPerformed(evt);
+            }
+        });
 
         logout.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         logout.setText("LOG OUT");
@@ -60,24 +70,23 @@ public class Home extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(principal)
-                .addGap(50, 50, 50)
-                .addComponent(teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(student, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logout)
-                .addGap(156, 156, 156))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(logout)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(principal)
+                        .addGap(18, 18, 18)
+                        .addComponent(teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(student, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addGap(45, 45, 45)
                 .addComponent(logout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(teacher, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(principal)
@@ -101,6 +110,9 @@ public class Home extends javax.swing.JFrame {
 
     private void principalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
+        CurrentPrincipal view = new CurrentPrincipal();
+        view.setVisible(true);
     }//GEN-LAST:event_principalActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -109,6 +121,20 @@ public class Home extends javax.swing.JFrame {
         Login log = new Login();
         log.setVisible(true);
     }//GEN-LAST:event_logoutActionPerformed
+
+    private void teacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        AllTeachers view = new AllTeachers();
+        view.setVisible(true);
+    }//GEN-LAST:event_teacherActionPerformed
+
+    private void studentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        AllStudents view = new AllStudents();
+        view.setVisible(true);
+    }//GEN-LAST:event_studentActionPerformed
 
     /**
      * @param args the command line arguments
