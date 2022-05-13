@@ -44,13 +44,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   <Component id="principal" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="teacher" min="-2" pref="294" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                   <Component id="student" min="-2" pref="234" max="-2" attributes="0"/>
-                  <EmptySpace pref="114" max="32767" attributes="0"/>
+                  <EmptySpace pref="144" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
@@ -64,15 +64,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   <Component id="logout" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
+                  <EmptySpace pref="72" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="teacher" alignment="1" pref="218" max="32767" attributes="0"/>
-                          <Component id="student" pref="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="teacher" min="-2" pref="218" max="-2" attributes="0"/>
                       <Component id="principal" min="-2" max="-2" attributes="0"/>
+                      <Component id="student" min="-2" pref="218" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="121" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
