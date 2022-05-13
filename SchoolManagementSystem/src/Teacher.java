@@ -1,3 +1,18 @@
+import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +23,18 @@
  * @author ASUS
  */
 public class Teacher extends javax.swing.JFrame {
+    
+    Connection con = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    
 
     /**
      * Creates new form Teacher
      */
     public Teacher() {
         initComponents();
+        con = databaseConnection.connection();
     }
 
     /**
@@ -26,111 +47,214 @@ public class Teacher extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        teacher = new javax.swing.JLabel();
         imageIcon = new javax.swing.JLabel();
         select = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        JLable6 = new javax.swing.JLabel();
+        JLabel4 = new javax.swing.JLabel();
+        JLabel5 = new javax.swing.JLabel();
+        JLabel7 = new javax.swing.JLabel();
+        JLabel8 = new javax.swing.JLabel();
+        JLabel3 = new javax.swing.JLabel();
+        JLabel9 = new javax.swing.JLabel();
+        id = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
+        address = new javax.swing.JTextField();
+        age = new javax.swing.JTextField();
+        birthday = new javax.swing.JTextField();
+        contact = new javax.swing.JTextField();
+        newTeacher = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        search = new javax.swing.JButton();
+        submit = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        gender = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 0, 102));
-        jLabel1.setText("TEACHER");
-
-        imageIcon.setText("jLabel2");
+        teacher.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        teacher.setForeground(new java.awt.Color(51, 0, 102));
+        teacher.setText("TEACHER");
 
         select.setText("SELECT IMAGE");
+        select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("AGE");
+        JLable6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLable6.setText("AGE");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("NAME");
+        JLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel4.setText("NAME");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("ADDRESS");
+        JLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel5.setText("ADDRESS");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("DATE OF BIRTH");
+        JLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel7.setText("DATE OF BIRTH");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("SEX");
+        JLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel8.setText("SEX");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("ID");
+        JLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel3.setText("ID");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("CONTACT NO.");
+        JLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JLabel9.setText("CONTACT NO.");
+
+        newTeacher.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        newTeacher.setText("NEW");
+        newTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTeacherActionPerformed(evt);
+            }
+        });
+
+        update.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        update.setText("UPDATE");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
+        search.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        search.setText("SEARCH");
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
+        submit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        submit.setText("SUBMIT");
+        submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitActionPerformed(evt);
+            }
+        });
+
+        delete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        delete.setText("DELETE");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
+        gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Male", "Female" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(79, 79, 79)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(215, 215, 215)
-                        .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(select)))
-                .addContainerGap(226, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(submit)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(JLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(JLabel9)
+                                        .addComponent(JLabel7)
+                                        .addComponent(JLabel4)
+                                        .addComponent(JLabel5)
+                                        .addComponent(JLable6)
+                                        .addComponent(JLabel8))
+                                    .addGap(50, 50, 50)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(birthday, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(contact, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(124, 124, 124)
+                                    .addComponent(newTeacher)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(update)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(delete)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(select))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(search))))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(teacher)))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addComponent(teacher)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(select)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(search)
+                        .addGap(41, 41, 41)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(select))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                    .addComponent(JLabel3)
+                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JLabel4)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JLabel5)
+                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JLable6)
+                    .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JLabel7)
+                    .addComponent(birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JLabel8)
+                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
-                .addGap(133, 133, 133))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JLabel9)
+                    .addComponent(contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newTeacher)
+                    .addComponent(update)
+                    .addComponent(delete))
+                .addGap(37, 37, 37)
+                .addComponent(submit)
+                .addGap(33, 33, 33))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,6 +263,183 @@ public class Teacher extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        imageIcon.setIcon(new ImageIcon(file.toString()));
+        filename = file.getAbsolutePath();
+        
+        try
+        {
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte [] buf = new byte [1024];
+            for(int readnum;(readnum = fis.read(buf)) !=-1;)
+            {
+                bos.write(buf, 0, readnum);
+            }
+            photo = bos.toByteArray();
+        }
+        catch(Exception e)
+        {
+           System.out.println(e);
+        }
+    }//GEN-LAST:event_selectActionPerformed
+
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+          stmt = con.createStatement();
+          
+            int sId = Integer.parseInt(id.getText());
+            String sName = name.getText();
+            String sAddress = address.getText();
+            int sAge = Integer.parseInt(age.getText());
+            long Birthday = Date.parse(birthday.getText());
+            java.sql.Date sBirthday = new java.sql.Date(Birthday);
+            String sGender = (String)gender.getSelectedItem();
+            int sContact = Integer.parseInt(contact.getText());
+
+            String query = "INSERT INTO teacher (id, name, address, age, birthday, gender, contact, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, sId);
+            preparedStmt.setString(2, sName);
+            preparedStmt.setString(3, sAddress);
+            preparedStmt.setInt(4, sAge);
+            preparedStmt.setDate(5, sBirthday);
+            preparedStmt.setString(6, sGender);
+            preparedStmt.setInt(7, sContact);
+            preparedStmt.setBytes(8, photo);
+            
+
+            preparedStmt.execute();
+            JOptionPane.showMessageDialog(null, "ADDED");
+            
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_submitActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            stmt = con.createStatement();
+            
+            int sId = Integer.parseInt(id.getText());
+            
+            String query = "SELECT * FROM teacher";
+            
+            rs = stmt.executeQuery(query);
+            
+            while(rs.next())
+            {
+                if(sId == rs.getInt("id"))
+                {
+                    name.setText(rs.getString("name"));
+                    address.setText(rs.getString("address"));
+                    age.setText(String.format("%s",rs.getInt("age")));
+                    birthday.setText(String.format("%td",rs.getDate("birthday")));
+                    gender.setSelectedItem(rs.getString("gender"));
+                    contact.setText(String.format(0 +  "%s",rs.getInt("contact")));
+                    
+                    BufferedImage image = ImageIO.read(rs.getBinaryStream("image"));
+                    imageIcon.setIcon(new ImageIcon(image));
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void Reset()
+    {
+        id.setText("");
+        name.setText("");
+        address.setText("");
+        age.setText("");
+        birthday.setText("");
+        gender.setSelectedItem("");
+        contact.setText("");
+        imageIcon.setIcon(null);
+        
+    }
+    
+    private void newTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTeacherActionPerformed
+        // TODO add your handling code here:
+        Reset();
+    }//GEN-LAST:event_newTeacherActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+          stmt = con.createStatement();
+          
+            int sId = Integer.parseInt(id.getText());
+            String sName = name.getText();
+            String sAddress = address.getText();
+            int sAge = Integer.parseInt(age.getText());
+            long Birthday = Date.parse(birthday.getText());
+            java.sql.Date sBirthday = new java.sql.Date(Birthday);
+            String sGender = (String)gender.getSelectedItem();
+            int sContact = Integer.parseInt(contact.getText());
+
+            String query = "UPDATE teacher SET name = ?,address = ?,age = ?, birthday = ?, gender = ?,contact = ?,image = ? WHERE id=?";
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            
+            preparedStmt.setString(1, sName);
+            preparedStmt.setString(2, sAddress);
+            preparedStmt.setInt(3, sAge);
+            preparedStmt.setDate(4, sBirthday);
+            preparedStmt.setString(5, sGender);
+            preparedStmt.setInt(6, sContact);
+            preparedStmt.setBytes(7, photo);
+            preparedStmt.setInt(8, sId);
+            
+
+            preparedStmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "UPDATED");
+            
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            stmt = con.createStatement();
+            
+            int sId = Integer.parseInt(id.getText());
+            
+            String query = "DELETE FROM teacher WHERE id ='"+sId+"' ";
+            
+            stmt.executeUpdate(query);
+            
+            Reset();
+            JOptionPane.showMessageDialog(null, "DELETED");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,17 +477,30 @@ public class Teacher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLabel3;
+    private javax.swing.JLabel JLabel4;
+    private javax.swing.JLabel JLabel5;
+    private javax.swing.JLabel JLabel7;
+    private javax.swing.JLabel JLabel8;
+    private javax.swing.JLabel JLabel9;
+    private javax.swing.JLabel JLable6;
+    private javax.swing.JTextField address;
+    private javax.swing.JTextField age;
+    private javax.swing.JTextField birthday;
+    private javax.swing.JTextField contact;
+    private javax.swing.JButton delete;
+    private javax.swing.JComboBox<String> gender;
+    private javax.swing.JTextField id;
     private javax.swing.JLabel imageIcon;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField name;
+    private javax.swing.JButton newTeacher;
+    private javax.swing.JButton search;
     private javax.swing.JButton select;
+    private javax.swing.JButton submit;
+    private javax.swing.JLabel teacher;
+    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
+byte [] photo = null;
+String filename = null;
 }
